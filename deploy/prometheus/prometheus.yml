@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 30s
+scrape_configs:
+  - job_name: brett-governor
+    static_configs:
+      - targets: ["127.0.0.1:9187"]   # DutyCycleInterface metrics (TT-26)

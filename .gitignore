@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+# uv
+.uv/
+uv.lock.bak
+# tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+# env / secrets
+.env
+*.local
+config/*.local.psd1
+# data that must never enter git (see brett-dict/README.md)
+packages/brett-dict/corpus/
+measurements/**/results/*.raw
+measurements/**/*.pcap
+*.sqlite
+*.sqlite3
+# OS
+.DS_Store
+Thumbs.db

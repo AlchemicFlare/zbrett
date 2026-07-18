@@ -1,0 +1,32 @@
+# zBRETT CI — lint + test on every push; mirror main & tags to the public GitHub (EUPL-1.2).
+image: python:3.11-slim
+
+definitions:
+  steps:
+    - step: &verify
+        name: Lint + test + REUSE
+        caches: [pip]
+        script:
+          - pip install -q uv
+          - uv sync --group dev
+          - uv run ruff check .
+          - uv run reuse lint
+          - uv run pytest
+    - step: &mirror
+        name: Mirror to GitHub
+        script:
+          # One-way public EUPL-1.2 mirror. Requires repo variable GITHUB_MIRROR_URL
+          # (e.g. https://x-access-token:$GITHUB_MIRROR_TOKEN@github.com/<org>/zbrett.git)
+          - bash tools/mirror-to-github.sh
+
+pipelines:
+  pull-requests:
+    '**':
+      - step: *verify
+  branches:
+    main:
+      - step: *verify
+      - step: *mirror
+  tags:
+    '*':
+      - step: *mirror

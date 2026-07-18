@@ -1,0 +1,30 @@
+# Workspace root — not a distributable package, just the uv workspace + tool config.
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[dependency-groups]
+dev = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "reuse>=4",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["packages/*/src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["packages"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+namespace_packages = true
+explicit_package_bases = true
+ignore_missing_imports = true

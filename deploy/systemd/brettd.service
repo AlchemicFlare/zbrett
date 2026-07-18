@@ -1,0 +1,13 @@
+[Unit]
+Description=zBRETT daemon
+After=network-online.target rnsd.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/env brettd --role hub
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

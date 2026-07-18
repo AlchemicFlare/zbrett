@@ -1,0 +1,13 @@
+# Gateway stack: Kubo (IPFS) pins all brett CIDs. Storage MUST be SSD, not microSD.
+services:
+  kubo:
+    image: ipfs/kubo:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5001:5001"   # HTTP API (brett-fettnetz talks to this)
+      - "4001:4001"             # libp2p swarm
+    volumes:
+      - ipfs_data:/data/ipfs    # back this with an SSD mount
+
+volumes:
+  ipfs_data:

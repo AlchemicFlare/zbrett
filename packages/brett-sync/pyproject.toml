@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "brett-sync"
+version = "0.0.0"
+description = "zBRETT set-reconciliation: minisketch wrapper + SYNC protocol (E3)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "EUPL-1.2"
+authors = [{ name = "protagx", email = "hello@protagx.com" }]
+dependencies = [
+    
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/brett/sync"]
+
+[tool.uv.sources]
+brett-core = { workspace = true }

@@ -1,0 +1,60 @@
+graph TB
+
+%% ============ ENDNODE ============
+subgraph EN["ENDNODE — LilyGO T-Deck / RNode + Handy"]
+  direction TB
+  EN_HW["<b>Hardware</b><br/>ESP32-S3 + SX1262<br/>Akku, 1–2 Nachbarn"]
+  EN_NNTP["<b>Newsreader</b><br/>NNTP-Client"]
+  EN_D["<b>brettd</b> (Endnode-Rolle)<br/>DAG-Store (SQLite)<br/>Abo · Wantlist · Policy-Check<br/>Codec: dag-cbor + CIDv1<br/>Dict: 4-Bit-Index → dict_allow[]"]
+  EN_LX["<b>LXMF</b> — vanilla<br/><i>kein Governor</i><br/>Budget nie kritisch"]
+  EN_RNS["Reticulum (RNS)<br/>Krypto · Routing"]
+  EN_PHY["LoRa PHY · SF11<br/>EU-868"]
+
+  EN_NNTP --> EN_D --> EN_LX --> EN_RNS --> EN_PHY
+  EN_PHY -.läuft auf.- EN_HW
+end
+
+%% ============ HUB ============
+subgraph HUB["HUB — RAK4631 / T-Beam · 24/7 · Solar + LiFePO4"]
+  direction TB
+  HUB_HW["<b>Hardware</b><br/>Dachantenne · max 8 Nachbarn<br/>Uplink LTE/WLAN"]
+  HUB_D["<b>brettd</b> (Hub-Rolle)<br/>Voller Brett-Bestand<br/>Pinning-Service + Retention<br/>Policy-Enforcement · Rate-Limit<br/>Relay-Reputation"]
+  HUB_LX["<b>LXMF</b>"]
+  HUB_RNS["Reticulum (RNS)"]
+  HUB_DCI["<b>DutyCycleInterface</b> ⚠<br/><i>RNS-Interface — Eigenbau</i><br/>Rolling-Window-Airtime (1 h)<br/>Priority-Queue<br/>BEACON &gt; SYNC &gt; announce &gt; proof<br/>verzögert · droppt nie<br/>Announce-Ausdünnung<br/>→ Prometheus"]
+  HUB_PHY["LoRa PHY · SF11 / SF7"]
+
+  HUB_D --> HUB_LX --> HUB_RNS --> HUB_DCI --> HUB_PHY
+  HUB_PHY -.läuft auf.- HUB_HW
+end
+
+%% ============ GATEWAY ============
+subgraph GW["GATEWAY — Hub + RPi 4/5"]
+  direction TB
+  GW_D["<b>brettd</b> (Hub-Rolle)"]
+  GW_IPFS["<b>Kubo</b> — IPFS-Node<br/>pinnt alle Brett-CIDs<br/>Bitswap · libp2p"]
+  GW_D <--> GW_IPFS
+end
+
+%% ============ FETTNETZ ============
+subgraph FAT["FETTNETZ"]
+  IPFS_NET["IPFS-Netz / Gateways<br/>Content-Blocks · Dictionaries<br/>Long-Form-Dokumente"]
+end
+
+%% ============ LINKS ============
+EN_PHY <==>|"<b>LoRa</b> · Duty-Cycle 1%<br/>~720 Pakete/Tag<br/>BEACON ~108 B · INLINE ~76 B<br/>SYNC_REQ/RESP (Minisketch 128 B)"| HUB_PHY
+
+HUB_PHY <==>|"<b>Hub↔Hub</b> · SF7 bei Sicht<br/>Minisketch-Sync<br/>nachts, leises Band"| GW_D
+
+EN_D -.->|"<b>Bulk-Fetch</b> bei WLAN/LTE<br/>Wantlist-CIDs<br/><i>Bitswap — CID kommt aus Beacon</i>"| IPFS_NET
+GW_IPFS <-->|"<b>Bitswap / libp2p</b><br/>HTTP-API"| IPFS_NET
+
+classDef hw fill:#3d2f1f,stroke:#c9a227,stroke-width:2px,color:#f0e6d2
+classDef sw fill:#1f2f3d,stroke:#4a90d9,stroke-width:1.5px,color:#dce9f5
+classDef crit fill:#3d1f1f,stroke:#d95a4a,stroke-width:2.5px,color:#f5dcdc
+classDef net fill:#1f3d2a,stroke:#4ad98a,stroke-width:1.5px,color:#dcf5e6
+
+class EN_HW,HUB_HW hw
+class EN_NNTP,EN_D,EN_LX,EN_RNS,EN_PHY,HUB_D,HUB_LX,HUB_RNS,HUB_PHY,GW_D sw
+class HUB_DCI crit
+class GW_IPFS,IPFS_NET net

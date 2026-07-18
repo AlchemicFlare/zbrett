@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "brettd"
+version = "0.0.0"
+description = "brettd — the zBRETT daemon wiring core+sync+fettnetz+transport (E5)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "EUPL-1.2"
+authors = [{ name = "protagx", email = "hello@protagx.com" }]
+dependencies = [
+    "lxmf>=0.5",
+    "rns>=0.7"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/brett/daemon"]
+
+[project.scripts]
+brettd = "brett.daemon.__main__:main"
+
+[tool.uv.sources]
+brett-core = { workspace = true }
+brett-sync = { workspace = true }
+brett-fettnetz = { workspace = true }
