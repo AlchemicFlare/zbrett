@@ -1,4 +1,51 @@
-# Python
+# ── Secrets & credentials (NEVER public) ──────────────────────
+.env
+.env.*
+!.env.example
+.envrc
+*.local
+config/*.local.psd1
+secrets/
+# operational data: hub coordinates, operator lists, real infra
+private/
+*.key
+*.pem
+*.p12
+*.pfx
+*.ppk
+id_rsa*
+id_ecdsa*
+id_ed25519*
+zbrett-mirror
+zbrett-mirror.pub
+credentials*
+
+# ── Local workflow tooling (Bitbucket dev-scripts) — not mirrored ──
+scripts/
+
+# ── Reticulum / LXMF identities & node state (private keys!) ──
+.reticulum/
+reticulum/
+**/identities/
+*.identity
+**/storage/
+
+# ── Runtime data & generated artifacts (not source) ──────────
+*.sqlite
+*.sqlite3
+*.db
+*.log
+logs/
+.ipfs/
+# training corpus — data, not source
+packages/brett-dict/corpus/
+# trained dictionaries are published to IPFS by CID, not committed
+packages/brett-dict/dictionaries/
+packages/brett-dict/*.dict
+measurements/**/results/*.raw
+measurements/**/*.pcap
+
+# ── Python / uv / tooling ─────────────────────────────────────
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -7,31 +54,20 @@ build/
 dist/
 .venv/
 venv/
-# uv
 .uv/
 uv.lock.bak
-# tooling
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
 .coverage
 htmlcov/
-# env / secrets
-.env
-*.local
-config/*.local.psd1
-# data that must never enter git (see brett-dict/README.md)
-packages/brett-dict/corpus/
-measurements/**/results/*.raw
-measurements/**/*.pcap
-*.sqlite
-*.sqlite3
-# OS
+
+# ── IDE / OS ──────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db
-
-# local mirror deploy-key material — NEVER commit
-zbrett-mirror
-zbrett-mirror.pub
-id_ed25519*
-*.pem
+desktop.ini
