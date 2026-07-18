@@ -21,7 +21,16 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["packages"]
-addopts = "-q"
+addopts = "-q --import-mode=importlib"
+pythonpath = [
+  "packages/brett-core/src",
+  "packages/brett-sync/src",
+  "packages/brett-governor/src",
+  "packages/brett-fettnetz/src",
+  "packages/brettd/src",
+  "packages/brett-nntp/src",
+  "packages/brett-dict/src",
+]
 
 [tool.mypy]
 python_version = "3.11"

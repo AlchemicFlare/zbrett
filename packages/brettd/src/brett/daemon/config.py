@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: EUPL-1.2
 """brettd configuration (role, interfaces, subscribed bretter)."""
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 
 

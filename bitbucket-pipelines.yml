@@ -8,7 +8,7 @@ definitions:
         caches: [pip]
         script:
           - pip install -q uv
-          - uv sync --group dev
+          - uv sync --all-packages --group dev
           - uv run ruff check .
           - uv run reuse lint
           - uv run pytest

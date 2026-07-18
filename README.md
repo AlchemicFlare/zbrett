@@ -38,7 +38,7 @@ Repo/brand: **zBRETT**. Import namespace: **`brett`** (PEP 420 implicit namespac
 
 ```bash
 # requires uv (https://docs.astral.sh/uv/)
-uv sync                      # resolve + install the whole workspace (editable)
+uv sync --all-packages       # resolve + install every workspace package (editable)
 uv run pytest                # run all package tests
 uv run ruff check .          # lint
 uv run reuse lint            # verify EUPL-1.2 licensing compliance

@@ -17,5 +17,5 @@ class Minisketch:
     def add(self, element: int) -> None:
         raise NotImplementedError("TT-20")
 
-    def merge_decode(self, other: "Minisketch") -> list[int]:
+    def merge_decode(self, other: Minisketch) -> list[int]:
         raise NotImplementedError("TT-20")

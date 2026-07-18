@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: EUPL-1.2
 """Priority queue: BEACON > SYNC > announce > proof (TT-24)."""
 from __future__ import annotations
+
 from enum import IntEnum
 
 
