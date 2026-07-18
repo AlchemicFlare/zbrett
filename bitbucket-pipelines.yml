@@ -8,9 +8,12 @@ definitions:
         caches: [pip]
         script:
           - pip install -q uv
+          # REUSE first, on the clean checkout BEFORE .venv exists: the slim image has no
+          # git, so reuse can't read .gitignore to skip .venv. uvx runs it in an ephemeral
+          # env (no project .venv created); charset-normalizer covers the encoding backend.
+          - uvx --from "reuse[charset-normalizer]" reuse lint
           - uv sync --all-packages --group dev
           - uv run ruff check .
-          - uv run reuse lint
           - uv run pytest
     - step: &mirror
         name: Mirror to GitHub
