@@ -29,3 +29,9 @@ measurements/**/*.pcap
 # OS
 .DS_Store
 Thumbs.db
+
+# local mirror deploy-key material — NEVER commit
+zbrett-mirror
+zbrett-mirror.pub
+id_ed25519*
+*.pem
