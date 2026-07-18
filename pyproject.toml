@@ -8,7 +8,7 @@ dev = [
   "pytest-cov>=5",
   "ruff>=0.6",
   "mypy>=1.11",
-  "reuse>=4",
+  "reuse[charset-normalizer]>=4",
 ]
 
 [tool.ruff]

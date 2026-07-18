@@ -7,7 +7,7 @@ SPDX-PackageDownloadLocation = "git@bitbucket.org:precisyn/zbrett.git"
 path = [
   "**/*.toml", "**/*.cfg", "**/*.ini", "**/*.json", "**/*.yml", "**/*.yaml",
   "**/*.md", "**/*.txt", "**/.gitignore", "**/.gitattributes", "**/.editorconfig",
-  ".python-version", "CODEOWNERS", "**/*.service", "**/*.mmd", "**/*.psd1", "**/*.ps1",
+  ".python-version", "CODEOWNERS", "uv.lock", "LICENSE", "**/*.service", "**/*.mmd", "**/*.psd1", "**/*.ps1",
   "**/*.env.example", "**/py.typed",
 ]
 precedence = "aggregate"

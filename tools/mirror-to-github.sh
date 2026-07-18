@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: EUPL-1.2
 #
 # One-way mirror of main + tags to the public GitHub repo (EUPL-1.2).
-# CI provides GITHUB_MIRROR_URL as a tokened HTTPS URL (or set GITHUB_MIRROR_TOKEN
-# and GITHUB_MIRROR_REPO). Issues/PRs stay on Bitbucket/Jira; this only pushes code.
+# Default remote is the SSH mirror git@github.com:AlchemicFlare/zbrett.git; override
+# with GITHUB_MIRROR_URL. Auth is via SSH key (local: your agent; CI: Pipelines SSH key
+# + a GitHub write deploy key). Issues/PRs stay on Bitbucket/Jira; this only pushes code.
 set -euo pipefail
 
-: "${GITHUB_MIRROR_URL:?set GITHUB_MIRROR_URL (tokened https URL of the GitHub mirror)}"
+GITHUB_MIRROR_URL="${GITHUB_MIRROR_URL:-git@github.com:AlchemicFlare/zbrett.git}"
 
 git remote remove github 2>/dev/null || true
 git remote add github "$GITHUB_MIRROR_URL"
