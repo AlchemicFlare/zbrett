@@ -17,9 +17,13 @@ definitions:
           - uv run pytest
     - step: &mirror
         name: Mirror to GitHub
+        image: atlassian/default-image:latest   # has git + ssh (slim python image does not)
+        clone:
+          depth: full                            # push complete history to the mirror
         script:
-          # One-way public EUPL-1.2 mirror. Requires repo variable GITHUB_MIRROR_URL
-          # (e.g. https://x-access-token:$GITHUB_MIRROR_TOKEN@github.com/<org>/zbrett.git)
+          # One-way public EUPL-1.2 mirror over SSH. Auth: a Pipelines SSH key
+          # (Repo settings -> Pipelines -> SSH keys) registered as a WRITE deploy key on
+          # the GitHub repo, with github.com added to the Pipelines known hosts.
           - bash tools/mirror-to-github.sh
 
 pipelines:
