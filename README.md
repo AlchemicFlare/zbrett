@@ -1,8 +1,18 @@
 # zBRETT — code monorepo
 
+[![status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange)]()
+[![license: EUPL-1.2](https://img.shields.io/badge/license-EUPL--1.2-blue)](LICENSES/EUPL-1.2.txt)
+[![chat: Matrix](https://img.shields.io/badge/chat-Matrix-brightgreen)](https://matrix.to/#/!DvdDawmoYjcuPhFTlf:matrix.org?via=matrix.org)
+
 > **Beacon-Relayed Emergency-capable Threaded Transport**
 > Threaded, asynchronous forum discussion over LoRa radio.
 > Maus/ZConnect semantics · IPFS data model · Reticulum transport.
+
+> [!NOTE]
+> **Status: early stage — pre-implementation.** The architecture and specs are
+> settled; the code is scaffolding. Every package is a typed stub that raises
+> `NotImplementedError`, waiting for its first real commit. This is the ground
+> floor — **co-developers wanted**, see [Get involved](#get-involved--co-developers-wanted).
 
 This repository is the **single source of truth for the zBRETT software stack**.
 It is a `uv` workspace of Python packages that share one still-moving wire format
@@ -11,6 +21,38 @@ and policy schema, plus measurement tooling and deployment assets.
 Project management lives in Jira: **TT** — https://precisyn.atlassian.net/jira/software/projects/TT
 Concept & specs live in Confluence (Space **P**). The marketing site is a
 separate repo (`xbrett-website`).
+
+## Get involved — co-developers wanted
+
+zBRETT is at the ground floor and looking for **co-developers**. If threaded
+forums over LoRa — Reticulum transport, an IPLD/Merkle-DAG data model, minisketch
+set-reconciliation, a 1 % duty-cycle airtime governor — sounds like your idea of
+fun, come build it.
+
+**Talk to us first.** The project chat is on Matrix:
+**https://matrix.to/#/!DvdDawmoYjcuPhFTlf:matrix.org?via=matrix.org** — drop in,
+say hi, pick a piece. Or email **hello@protagx.com**.
+
+**How contribution works (for now).** Development happens on a private Bitbucket
+origin; this GitHub repo is a read-only **EUPL-1.2 mirror**, so its Issues are off
+and it doesn't take pull requests directly. We work **vet-then-invite**: reach out
+on Matrix (or by email), tell us what you'd like to own, and we grant commit access
+once we've talked. Deliberately small while the wire format is still moving — this
+will open up as the project matures. By contributing you agree your work is
+licensed under the **EUPL-1.2**.
+
+**Good first areas** — each maps to a Jira epic, mirrored here as a package stub:
+
+| Area | Epic | What it is |
+|---|---|---|
+| `brett-core` | E2 | the data layer everything imports — DAG store, dag-cbor/CIDv1 codec, policy |
+| `brett-sync` | E3 | minisketch ctypes wrapper + the SYNC protocol (debuggable over TCP, no radio needed) |
+| `brett-governor` | E4 | the DutyCycleInterface — meatiest piece, and upstreamable to Reticulum |
+| `brett-fettnetz` | E6 | IPFS/Kubo fetch + gateway |
+| `brett-nntp` | E7 | read-only NNTP frontend — "the moment it feels like Maus" |
+| `measurements` | E1 | M1–M3 hardware measurements (RAK4631 / T-Deck, SF11/868) |
+
+The [build order](#build--phase-order-from-mvp-13) below is the natural on-ramp.
 
 ## Layout
 
