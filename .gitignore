@@ -25,7 +25,6 @@ scripts/
 
 # ── Reticulum / LXMF identities & node state (private keys!) ──
 .reticulum/
-reticulum/
 **/identities/
 *.identity
 **/storage/

@@ -8,6 +8,7 @@ name: zbrett-gateway
 services:
   reticulum:
     build: ./reticulum
+    pull_policy: build
     container_name: zbrett-rnsd
     restart: unless-stopped
     ports:

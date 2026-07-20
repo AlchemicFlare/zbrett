@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 protagx <hello@protagx.com>
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Reticulum config for the zBRETT dev gateway transport node.
+# Full reference: https://reticulum.network/manual/interfaces.html
+
+[reticulum]
+  # A transport node routes traffic for others — this is the dev backbone.
+  enable_transport = True
+  # Dedicated instance inside the container (not a shared host instance).
+  share_instance = No
+  panic_on_interface_error = No
+
+[logging]
+  loglevel = 4
+
+[interfaces]
+
+  # Dev machines and (later) endnodes connect in over TCP. RNS traffic is
+  # end-to-end encrypted, so exposing this port is safe by design.
+  [[zBRETT Gateway TCP]]
+    type = TCPServerInterface
+    interface_enabled = True
+    listen_ip = 0.0.0.0
+    listen_port = 4965
+
+  # Later: add an RNodeInterface here to bridge onto the LoRa side once the
+  # radio hardware exists (Phase 4). Kept out for the pure-TCP dev phase.
