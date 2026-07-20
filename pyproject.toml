@@ -9,6 +9,7 @@ dev = [
   "ruff>=0.6",
   "mypy>=1.11",
   "reuse[charset-normalizer]>=4",
+  "multiformats>=0.3",   # test-only: CIDv1 interop cross-check
 ]
 
 [tool.ruff]

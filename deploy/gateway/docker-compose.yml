@@ -1,0 +1,52 @@
+# zBRETT development "fat-net" gateway for host27 (Portainer stack).
+# Two services: an always-on Reticulum TCP transport node (rnsd) and a Kubo IPFS
+# node. Together they are the dev backbone — endnodes/dev machines connect to
+# rnsd over TCP (test sync + LXMF before radio), and the fettnetz code targets
+# the IPFS API. See README.md for deploy + firewall steps.
+name: zbrett-gateway
+
+services:
+  reticulum:
+    build: ./reticulum
+    container_name: zbrett-rnsd
+    restart: unless-stopped
+    ports:
+      - "4965:4965/tcp"          # RNS TCPServerInterface — dev machines/endnodes dial in
+    volumes:
+      - reticulum_config:/config
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f rnsd >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  ipfs:
+    image: ipfs/kubo:v0.30.0
+    container_name: zbrett-ipfs
+    restart: unless-stopped
+    environment:
+      - IPFS_PROFILE=server      # datacenter profile: no local-network peer discovery
+    ports:
+      - "4001:4001/tcp"          # libp2p swarm (public — this is how IPFS peers reach it)
+      - "4001:4001/udp"
+      - "127.0.0.1:5001:5001"    # HTTP API — LOOPBACK ONLY. Never expose 5001 publicly.
+      # - "8080:8080"            # read-only IPFS gateway — expose only behind Traefik + auth
+    volumes:
+      - ipfs_data:/data/ipfs     # ⚠ back this with an SSD mount on host27 (IPFS kills SD/HDD)
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "ipfs", "id"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Same-host containers (e.g. a future brettd) reach the API at http://ipfs:5001
+# on this compose network — no need to publish 5001 for that.
+volumes:
+  reticulum_config:
+  ipfs_data:
