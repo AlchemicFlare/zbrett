@@ -20,10 +20,12 @@ services:
     cap_drop:
       - ALL
     healthcheck:
-      test: ["CMD-SHELL", "pgrep -f rnsd >/dev/null || exit 1"]
+      # python is guaranteed present (python base image); verify rnsd's TCP interface accepts.
+      test: ["CMD", "python3", "-c", "import socket; socket.create_connection(('127.0.0.1', 4965), 3).close()"]
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 20s
 
   ipfs:
     image: ipfs/kubo:v0.30.0
